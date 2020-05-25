@@ -1640,22 +1640,22 @@ OUTPUT(build/Chorus_test_F411RE.elf elf32-littlearm)
  .debug_ranges  0x0000000000000810       0x10 build/osc_calc.o
  .debug_ranges  0x0000000000000820       0x20 build/startup_stm32f411xe.o
 
-.debug_line     0x0000000000000000     0x4031
- .debug_line    0x0000000000000000      0x395 build/main.o
- .debug_line    0x0000000000000395      0x229 build/gpio.o
- .debug_line    0x00000000000005be      0x304 build/tim.o
- .debug_line    0x00000000000008c2      0x292 build/stm32f4xx_it.o
- .debug_line    0x0000000000000b54      0x22d build/stm32f4xx_hal_msp.o
- .debug_line    0x0000000000000d81     0x1267 build/stm32f4xx_hal_tim.o
- .debug_line    0x0000000000001fe8      0x845 build/stm32f4xx_hal_tim_ex.o
- .debug_line    0x000000000000282d      0x515 build/stm32f4xx_hal_rcc.o
- .debug_line    0x0000000000002d42      0x3bf build/stm32f4xx_hal_gpio.o
- .debug_line    0x0000000000003101      0x48f build/stm32f4xx_hal_cortex.o
- .debug_line    0x0000000000003590      0x44f build/stm32f4xx_hal.o
- .debug_line    0x00000000000039df      0x222 build/system_stm32f4xx.o
- .debug_line    0x0000000000003c01      0x1d8 build/freq_calc.o
- .debug_line    0x0000000000003dd9      0x1e4 build/osc_calc.o
- .debug_line    0x0000000000003fbd       0x74 build/startup_stm32f411xe.o
+.debug_line     0x0000000000000000     0x402e
+ .debug_line    0x0000000000000000      0x392 build/main.o
+ .debug_line    0x0000000000000392      0x229 build/gpio.o
+ .debug_line    0x00000000000005bb      0x304 build/tim.o
+ .debug_line    0x00000000000008bf      0x292 build/stm32f4xx_it.o
+ .debug_line    0x0000000000000b51      0x22d build/stm32f4xx_hal_msp.o
+ .debug_line    0x0000000000000d7e     0x1267 build/stm32f4xx_hal_tim.o
+ .debug_line    0x0000000000001fe5      0x845 build/stm32f4xx_hal_tim_ex.o
+ .debug_line    0x000000000000282a      0x515 build/stm32f4xx_hal_rcc.o
+ .debug_line    0x0000000000002d3f      0x3bf build/stm32f4xx_hal_gpio.o
+ .debug_line    0x00000000000030fe      0x48f build/stm32f4xx_hal_cortex.o
+ .debug_line    0x000000000000358d      0x44f build/stm32f4xx_hal.o
+ .debug_line    0x00000000000039dc      0x222 build/system_stm32f4xx.o
+ .debug_line    0x0000000000003bfe      0x1d8 build/freq_calc.o
+ .debug_line    0x0000000000003dd6      0x1e4 build/osc_calc.o
+ .debug_line    0x0000000000003fba       0x74 build/startup_stm32f411xe.o
 
 .debug_str      0x0000000000000000     0x335f
  .debug_str     0x0000000000000000     0x1184 build/main.o

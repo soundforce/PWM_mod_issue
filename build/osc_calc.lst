@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 1
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 1
   10:Src/osc_calc.c ****     case 0:
   11:Src/osc_calc.c **** 
   12:Src/osc_calc.c ****     if(OSC_sample_counter < OSC_pulse_width_in_cycles_25){
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 2
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s 			page 2
 
 
   47              		.loc 1 12 0
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 1
   92 006e 264A     		ldr	r2, .L13+12
   93 0070 1268     		ldr	r2, [r2]
   94 0072 03FB0223 		mla	r3, r3, r2, r2
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 3
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s 			page 3
 
 
   95 0076 4908     		lsrs	r1, r1, #1
@@ -170,63 +170,50 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 1
   50:Src/osc_calc.c **** 
   51:Src/osc_calc.c ****   }
   52:Src/osc_calc.c **** 
-  53:Src/osc_calc.c ****   //Expo conversion
-  54:Src/osc_calc.c ****   //OSC_osc_out = exp_array[OSC_osc_out];
-  55:Src/osc_calc.c **** 
-  56:Src/osc_calc.c ****   /*
-  57:Src/osc_calc.c ****   if (OSC_sample_counter < (OSC_samples_per_cycle >> 1)) {
-  58:Src/osc_calc.c ****   OSC_osc_out = exp_array[OSC_osc_out];
-  59:Src/osc_calc.c **** }
-  60:Src/osc_calc.c **** 
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 4
-
-
-  61:Src/osc_calc.c **** else{
-  62:Src/osc_calc.c **** OSC_osc_out = exp_array[dac_max - OSC_osc_out];
-  63:Src/osc_calc.c **** }
-  64:Src/osc_calc.c **** */
-  65:Src/osc_calc.c **** 
-  66:Src/osc_calc.c **** OSC_sample_counter++;
- 113              		.loc 1 66 0
+  53:Src/osc_calc.c **** OSC_sample_counter++;
+ 113              		.loc 1 53 0
  114 009a 194A     		ldr	r2, .L13+4
  115 009c 1368     		ldr	r3, [r2]
  116 009e 0133     		adds	r3, r3, #1
  117 00a0 1360     		str	r3, [r2]
-  67:Src/osc_calc.c **** 
-  68:Src/osc_calc.c **** if (OSC_sample_counter >= OSC_samples_per_cycle) {
- 118              		.loc 1 68 0
+  54:Src/osc_calc.c **** 
+  55:Src/osc_calc.c **** if (OSC_sample_counter >= OSC_samples_per_cycle) {
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s 			page 4
+
+
+ 118              		.loc 1 55 0
  119 00a2 1A4A     		ldr	r2, .L13+16
  120 00a4 1268     		ldr	r2, [r2]
  121 00a6 9342     		cmp	r3, r2
  122 00a8 02D3     		bcc	.L11
-  69:Src/osc_calc.c ****   OSC_sample_counter = 0;
- 123              		.loc 1 69 0
+  56:Src/osc_calc.c ****   OSC_sample_counter = 0;
+ 123              		.loc 1 56 0
  124 00aa 154B     		ldr	r3, .L13+4
  125 00ac 0022     		movs	r2, #0
  126 00ae 1A60     		str	r2, [r3]
  127              	.L11:
-  70:Src/osc_calc.c **** }
-  71:Src/osc_calc.c **** 
-  72:Src/osc_calc.c **** if (OSC_osc_out < 0) {
-  73:Src/osc_calc.c ****   OSC_osc_out = 0;
-  74:Src/osc_calc.c **** }
-  75:Src/osc_calc.c **** 
-  76:Src/osc_calc.c **** if (OSC_osc_out > dac_max) {
- 128              		.loc 1 76 0
+  57:Src/osc_calc.c **** }
+  58:Src/osc_calc.c **** 
+  59:Src/osc_calc.c **** if (OSC_osc_out < 0) {
+  60:Src/osc_calc.c ****   OSC_osc_out = 0;
+  61:Src/osc_calc.c **** }
+  62:Src/osc_calc.c **** 
+  63:Src/osc_calc.c **** if (OSC_osc_out > dac_max) {
+ 128              		.loc 1 63 0
  129 00b0 174B     		ldr	r3, .L13+20
  130 00b2 1A68     		ldr	r2, [r3]
  131 00b4 144B     		ldr	r3, .L13+12
  132 00b6 1B68     		ldr	r3, [r3]
  133 00b8 9A42     		cmp	r2, r3
  134 00ba 01D9     		bls	.L1
-  77:Src/osc_calc.c ****   OSC_osc_out = dac_max;
- 135              		.loc 1 77 0
+  64:Src/osc_calc.c ****   OSC_osc_out = dac_max;
+ 135              		.loc 1 64 0
  136 00bc 144A     		ldr	r2, .L13+20
  137 00be 1360     		str	r3, [r2]
  138              	.L1:
-  78:Src/osc_calc.c **** }
-  79:Src/osc_calc.c **** }
- 139              		.loc 1 79 0
+  65:Src/osc_calc.c **** }
+  66:Src/osc_calc.c **** }
+ 139              		.loc 1 66 0
  140 00c0 7047     		bx	lr
  141              	.L6:
   36:Src/osc_calc.c ****     break;
@@ -238,9 +225,6 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 1
  147 00ca 03FB02F3 		mul	r3, r3, r2
  148 00ce 0F49     		ldr	r1, .L13+16
  149 00d0 0968     		ldr	r1, [r1]
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 5
-
-
  150 00d2 B3FBF1F3 		udiv	r3, r3, r1
  151 00d6 D31A     		subs	r3, r2, r3
  152 00d8 0D4A     		ldr	r2, .L13+20
@@ -254,6 +238,9 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 1
  158 00de 084B     		ldr	r3, .L13+4
  159 00e0 1A68     		ldr	r2, [r3]
  160 00e2 0C4B     		ldr	r3, .L13+24
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s 			page 5
+
+
  161 00e4 1B68     		ldr	r3, [r3]
  162 00e6 9A42     		cmp	r2, r3
  163 00e8 04D2     		bcs	.L10
@@ -293,17 +280,17 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 1
  196              		.file 7 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/stdlib.h"
  197              		.file 8 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/_stdint.h"
  198              		.file 9 "Inc/osc_calc.h"
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s 			page 6
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s 			page 6
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 osc_calc.c
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s:18     .text.osc_calc:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s:25     .text.osc_calc:0000000000000000 osc_calc
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s:40     .text.osc_calc:000000000000000c $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s:179    .text.osc_calc:00000000000000fc $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s:45     .text.osc_calc:0000000000000011 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccaqsxP2.s:45     .text.osc_calc:0000000000000012 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s:18     .text.osc_calc:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s:25     .text.osc_calc:0000000000000000 osc_calc
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s:40     .text.osc_calc:000000000000000c $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s:179    .text.osc_calc:00000000000000fc $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s:45     .text.osc_calc:0000000000000011 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccahkz4q.s:45     .text.osc_calc:0000000000000012 $t
 
 UNDEFINED SYMBOLS
 OSC_wave_type
