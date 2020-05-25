@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
   29:Src/tim.c     ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
   30:Src/tim.c     ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
   31:Src/tim.c     ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 2
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 2
 
 
   32:Src/tim.c     ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
@@ -101,7 +101,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
   69:Src/tim.c     ****   {
   70:Src/tim.c     ****     Error_Handler();
   71:Src/tim.c     ****   }
-  72:Src/tim.c     ****   if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
+  72:Src/tim.c     ****   if (HAL_TIM_OC_Init(&htim1) != HAL_OK)
   73:Src/tim.c     ****   {
   74:Src/tim.c     ****     Error_Handler();
   75:Src/tim.c     ****   }
@@ -111,17 +111,17 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
   79:Src/tim.c     ****   {
   80:Src/tim.c     ****     Error_Handler();
   81:Src/tim.c     ****   }
-  82:Src/tim.c     ****   sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  82:Src/tim.c     ****   sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
   83:Src/tim.c     ****   sConfigOC.Pulse = 0;
   84:Src/tim.c     ****   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   85:Src/tim.c     ****   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   86:Src/tim.c     ****   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   87:Src/tim.c     ****   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
   88:Src/tim.c     ****   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 3
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 3
 
 
-  89:Src/tim.c     ****   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  89:Src/tim.c     ****   if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   90:Src/tim.c     ****   {
   91:Src/tim.c     ****     Error_Handler();
   92:Src/tim.c     ****   }
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
   52 0018 5A64     		str	r2, [r3, #68]
   53 001a 5B6C     		ldr	r3, [r3, #68]
   54 001c 03F00103 		and	r3, r3, #1
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 4
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 4
 
 
   55 0020 0193     		str	r3, [sp, #4]
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  101              		.loc 1 127 0
  102 0010 0268     		ldr	r2, [r0]
  103 0012 0F4B     		ldr	r3, .L14
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 5
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 5
 
 
  104 0014 9A42     		cmp	r2, r3
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  134 003a 0193     		str	r3, [sp, #4]
  138:Src/tim.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  135              		.loc 1 138 0
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 6
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 6
 
 
  136 003c 0223     		movs	r3, #2
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  187 0010 0F93     		str	r3, [sp, #60]
   54:Src/tim.c     ****   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
  188              		.loc 1 54 0
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 7
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 7
 
 
  189 0012 0793     		str	r3, [sp, #28]
@@ -418,12 +418,12 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  233 0058 32D1     		bne	.L25
  234              	.L18:
   72:Src/tim.c     ****   {
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 8
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 8
 
 
  235              		.loc 1 72 0
  236 005a 2148     		ldr	r0, .L30
- 237 005c FFF7FEFF 		bl	HAL_TIM_PWM_Init
+ 237 005c FFF7FEFF 		bl	HAL_TIM_OC_Init
  238              	.LVL8:
  239 0060 0028     		cmp	r0, #0
  240 0062 30D1     		bne	.L26
@@ -445,7 +445,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  253              	.L20:
   82:Src/tim.c     ****   sConfigOC.Pulse = 0;
  254              		.loc 1 82 0
- 255 0074 6023     		movs	r3, #96
+ 255 0074 3023     		movs	r3, #48
  256 0076 0793     		str	r3, [sp, #28]
   83:Src/tim.c     ****   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
  257              		.loc 1 83 0
@@ -463,14 +463,14 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
   87:Src/tim.c     ****   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
  266              		.loc 1 87 0
  267 0082 0C92     		str	r2, [sp, #48]
-  88:Src/tim.c     ****   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  88:Src/tim.c     ****   if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
  268              		.loc 1 88 0
  269 0084 0D92     		str	r2, [sp, #52]
   89:Src/tim.c     ****   {
  270              		.loc 1 89 0
  271 0086 07A9     		add	r1, sp, #28
  272 0088 1548     		ldr	r0, .L30
- 273 008a FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 273 008a FFF7FEFF 		bl	HAL_TIM_OC_ConfigChannel
  274              	.LVL10:
  275 008e 00BB     		cbnz	r0, .L28
  276              	.L21:
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  277              		.loc 1 93 0
  278 0090 0023     		movs	r3, #0
  279 0092 0093     		str	r3, [sp]
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 9
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 9
 
 
   94:Src/tim.c     ****   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  323              	.L26:
   74:Src/tim.c     ****   }
  324              		.loc 1 74 0
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 10
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 10
 
 
  325 00c6 FFF7FEFF 		bl	Error_Handler
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  155:Src/tim.c     ****   {
  156:Src/tim.c     ****   /* USER CODE BEGIN TIM1_MspDeInit 0 */
  157:Src/tim.c     **** 
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 11
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 11
 
 
  158:Src/tim.c     ****   /* USER CODE END TIM1_MspDeInit 0 */
@@ -646,31 +646,31 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 1
  407              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h"
  408              		.file 16 "Inc/tim.h"
  409              		.file 17 "Inc/main.h"
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s 			page 12
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s 			page 12
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 tim.c
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:18     .text.HAL_TIM_Base_MspInit:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:25     .text.HAL_TIM_Base_MspInit:0000000000000000 HAL_TIM_Base_MspInit
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:67     .text.HAL_TIM_Base_MspInit:0000000000000028 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:73     .text.HAL_TIM_MspPostInit:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:80     .text.HAL_TIM_MspPostInit:0000000000000000 HAL_TIM_MspPostInit
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:152    .text.HAL_TIM_MspPostInit:0000000000000050 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:159    .text.MX_TIM1_Init:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:166    .text.MX_TIM1_Init:0000000000000000 MX_TIM1_Init
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:346    .text.MX_TIM1_Init:00000000000000e0 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:18     .text.HAL_TIM_Base_MspInit:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:25     .text.HAL_TIM_Base_MspInit:0000000000000000 HAL_TIM_Base_MspInit
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:67     .text.HAL_TIM_Base_MspInit:0000000000000028 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:73     .text.HAL_TIM_MspPostInit:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:80     .text.HAL_TIM_MspPostInit:0000000000000000 HAL_TIM_MspPostInit
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:152    .text.HAL_TIM_MspPostInit:0000000000000050 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:159    .text.MX_TIM1_Init:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:166    .text.MX_TIM1_Init:0000000000000000 MX_TIM1_Init
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:346    .text.MX_TIM1_Init:00000000000000e0 $d
                             *COM*:000000000000003c htim1
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:352    .text.HAL_TIM_Base_MspDeInit:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:359    .text.HAL_TIM_Base_MspDeInit:0000000000000000 HAL_TIM_Base_MspDeInit
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccU9tkEV.s:386    .text.HAL_TIM_Base_MspDeInit:0000000000000018 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:352    .text.HAL_TIM_Base_MspDeInit:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:359    .text.HAL_TIM_Base_MspDeInit:0000000000000000 HAL_TIM_Base_MspDeInit
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//cc6Laapc.s:386    .text.HAL_TIM_Base_MspDeInit:0000000000000018 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_Init
 HAL_TIM_Base_Init
 HAL_TIM_ConfigClockSource
-HAL_TIM_PWM_Init
+HAL_TIM_OC_Init
 HAL_TIMEx_MasterConfigSynchronization
-HAL_TIM_PWM_ConfigChannel
+HAL_TIM_OC_ConfigChannel
 HAL_TIMEx_ConfigBreakDeadTime
 Error_Handler

@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -50,15 +50,15 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
   21:Src/main.c    ****   MX_GPIO_Init();
   22:Src/main.c    ****   MX_TIM1_Init();
   23:Src/main.c    **** 
-  24:Src/main.c    ****   int delay = 5625/4;
-  25:Src/main.c    ****   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  26:Src/main.c    ****   TIM1->PSC = 0;
-  27:Src/main.c    ****   TIM1->ARR = delay;
-  28:Src/main.c    ****   TIM1->CCR1 = delay >> 1;
+  24:Src/main.c    ****   int freq = 83999;
+  25:Src/main.c    ****   HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_1);
+  26:Src/main.c    ****   //Just for testing if the frequency is set proprely
+  27:Src/main.c    ****   TIM1->PSC = 0;
+  28:Src/main.c    ****   TIM1->ARR = freq/2;
   29:Src/main.c    **** 
   30:Src/main.c    ****   max_freq_ARR = CPU_frequency / BBD_max_freq;
   31:Src/main.c    ****   min_freq_ARR = CPU_frequency / BBD_min_freq;
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 2
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 2
 
 
   32:Src/main.c    **** 
@@ -89,45 +89,38 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
   57:Src/main.c    **** 
   58:Src/main.c    ****       //And set the new timer frequencies
   59:Src/main.c    ****       //PWM alwayas 50%
-  60:Src/main.c    ****       TIM1->ARR = overflow_R;
-  61:Src/main.c    ****       unsigned int ccr1 = (unsigned int)(overflow_R >> 1) + 1;
-  62:Src/main.c    ****       TIM1->CCR1 =  ccr1;
-  63:Src/main.c    ****       //TIM1->CCR1 = (999*OSC_osc_out)/dac_max;
-  64:Src/main.c    **** 
-  65:Src/main.c    ****       TIM3->ARR = overflow_L;
-  66:Src/main.c    ****       TIM3->CCR1 =  (unsigned int)(overflow_L >> 1);
-  67:Src/main.c    **** 
-  68:Src/main.c    ****       //Calculating the LFO value
-  69:Src/main.c    ****       osc_calc();
-  70:Src/main.c    ****       overflow_R = map(OSC_osc_out, 0, dac_max, max_freq_ARR, min_freq_ARR);
-  71:Src/main.c    **** 
-  72:Src/main.c    ****       /*
-  73:Src/main.c    ****       out_debug[debug_counter] = ccr1;
-  74:Src/main.c    ****       debug_counter++;
+  60:Src/main.c    ****       TIM1->ARR = overflow_R/2;
+  61:Src/main.c    **** 
+  62:Src/main.c    ****       //Calculating the LFO value
+  63:Src/main.c    ****       osc_calc();
+  64:Src/main.c    ****       overflow_R = map(OSC_osc_out, 0, dac_max, max_freq_ARR, min_freq_ARR);
+  65:Src/main.c    **** 
+  66:Src/main.c    ****       /*
+  67:Src/main.c    ****       out_debug[debug_counter] = ccr1;
+  68:Src/main.c    ****       debug_counter++;
+  69:Src/main.c    ****       if(debug_counter == 4000){
+  70:Src/main.c    ****       for(int i=0; i < sizeof(out_debug)/2; i++){
+  71:Src/main.c    ****     }
+  72:Src/main.c    ****     debug_counter = 0;
+  73:Src/main.c    ****   }
+  74:Src/main.c    ****   */
   75:Src/main.c    **** 
-  76:Src/main.c    ****       if(debug_counter == 4000){
-  77:Src/main.c    ****       for(int i=0; i < sizeof(out_debug)/2; i++){
-  78:Src/main.c    ****     }
-  79:Src/main.c    ****     debug_counter = 0;
-  80:Src/main.c    ****   }
-  81:Src/main.c    ****   */
-  82:Src/main.c    **** 
-  83:Src/main.c    **** }
-  84:Src/main.c    **** }
-  85:Src/main.c    **** }
-  86:Src/main.c    **** 
-  87:Src/main.c    **** 
-  88:Src/main.c    **** void SystemClock_Config(void)
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 3
-
-
-  89:Src/main.c    **** {
-  28              		.loc 1 89 0
+  76:Src/main.c    **** }
+  77:Src/main.c    **** }
+  78:Src/main.c    **** }
+  79:Src/main.c    **** 
+  80:Src/main.c    **** 
+  81:Src/main.c    **** void SystemClock_Config(void)
+  82:Src/main.c    **** {
+  28              		.loc 1 82 0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 80
   31              		@ frame_needed = 0, uses_anonymous_args = 0
   32 0000 30B5     		push	{r4, r5, lr}
   33              	.LCFI0:
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 3
+
+
   34              		.cfi_def_cfa_offset 12
   35              		.cfi_offset 4, -12
   36              		.cfi_offset 5, -8
@@ -135,15 +128,15 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
   38 0002 95B0     		sub	sp, sp, #84
   39              	.LCFI1:
   40              		.cfi_def_cfa_offset 96
-  90:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  41              		.loc 1 90 0
+  83:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  41              		.loc 1 83 0
   42 0004 3022     		movs	r2, #48
   43 0006 0021     		movs	r1, #0
   44 0008 08A8     		add	r0, sp, #32
   45 000a FFF7FEFF 		bl	memset
   46              	.LVL0:
-  91:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  47              		.loc 1 91 0
+  84:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  47              		.loc 1 84 0
   48 000e 0024     		movs	r4, #0
   49 0010 0394     		str	r4, [sp, #12]
   50 0012 0494     		str	r4, [sp, #16]
@@ -151,11 +144,11 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
   52 0016 0694     		str	r4, [sp, #24]
   53 0018 0794     		str	r4, [sp, #28]
   54              	.LBB2:
-  92:Src/main.c    **** 
-  93:Src/main.c    ****   /**Configure the main internal regulator output voltage
-  94:Src/main.c    ****   */
-  95:Src/main.c    ****   __HAL_RCC_PWR_CLK_ENABLE();
-  55              		.loc 1 95 0
+  85:Src/main.c    **** 
+  86:Src/main.c    ****   /**Configure the main internal regulator output voltage
+  87:Src/main.c    ****   */
+  88:Src/main.c    ****   __HAL_RCC_PWR_CLK_ENABLE();
+  55              		.loc 1 88 0
   56 001a 0194     		str	r4, [sp, #4]
   57 001c 1A4B     		ldr	r3, .L3
   58 001e 1A6C     		ldr	r2, [r3, #64]
@@ -167,8 +160,8 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
   64 002e 019B     		ldr	r3, [sp, #4]
   65              	.LBE2:
   66              	.LBB3:
-  96:Src/main.c    ****   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-  67              		.loc 1 96 0
+  89:Src/main.c    ****   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  67              		.loc 1 89 0
   68 0030 0294     		str	r4, [sp, #8]
   69 0032 164B     		ldr	r3, .L3+4
   70 0034 1A68     		ldr	r2, [r3]
@@ -178,87 +171,87 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
   74 003e 03F44043 		and	r3, r3, #49152
   75 0042 0293     		str	r3, [sp, #8]
   76 0044 029B     		ldr	r3, [sp, #8]
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 4
-
-
   77              	.LBE3:
-  97:Src/main.c    ****   /**Initializes the CPU, AHB and APB busses clocks
-  98:Src/main.c    ****   */
-  99:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  78              		.loc 1 99 0
+  90:Src/main.c    ****   /**Initializes the CPU, AHB and APB busses clocks
+  91:Src/main.c    ****   */
+  92:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  78              		.loc 1 92 0
   79 0046 0225     		movs	r5, #2
   80 0048 0895     		str	r5, [sp, #32]
- 100:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  81              		.loc 1 100 0
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 4
+
+
+  93:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  81              		.loc 1 93 0
   82 004a 0123     		movs	r3, #1
   83 004c 0B93     		str	r3, [sp, #44]
- 101:Src/main.c    ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  84              		.loc 1 101 0
+  94:Src/main.c    ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  84              		.loc 1 94 0
   85 004e 1023     		movs	r3, #16
   86 0050 0C93     		str	r3, [sp, #48]
- 102:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  87              		.loc 1 102 0
+  95:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  87              		.loc 1 95 0
   88 0052 0E95     		str	r5, [sp, #56]
- 103:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  89              		.loc 1 103 0
+  96:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  89              		.loc 1 96 0
   90 0054 0F94     		str	r4, [sp, #60]
- 104:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLM = 16;
-  91              		.loc 1 104 0
+  97:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLM = 16;
+  91              		.loc 1 97 0
   92 0056 1093     		str	r3, [sp, #64]
- 105:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLN = 336;
-  93              		.loc 1 105 0
+  98:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLN = 336;
+  93              		.loc 1 98 0
   94 0058 4FF4A873 		mov	r3, #336
   95 005c 1193     		str	r3, [sp, #68]
- 106:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-  96              		.loc 1 106 0
+  99:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  96              		.loc 1 99 0
   97 005e 0423     		movs	r3, #4
   98 0060 1293     		str	r3, [sp, #72]
- 107:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLQ = 4;
-  99              		.loc 1 107 0
+ 100:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLQ = 4;
+  99              		.loc 1 100 0
  100 0062 1393     		str	r3, [sp, #76]
- 108:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 101              		.loc 1 108 0
+ 101:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 101              		.loc 1 101 0
  102 0064 08A8     		add	r0, sp, #32
  103 0066 FFF7FEFF 		bl	HAL_RCC_OscConfig
  104              	.LVL1:
- 109:Src/main.c    ****   {
- 110:Src/main.c    ****     Error_Handler();
- 111:Src/main.c    ****   }
- 112:Src/main.c    ****   /**Initializes the CPU, AHB and APB busses clocks
- 113:Src/main.c    ****   */
- 114:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
- 105              		.loc 1 114 0
+ 102:Src/main.c    ****   {
+ 103:Src/main.c    ****     Error_Handler();
+ 104:Src/main.c    ****   }
+ 105:Src/main.c    ****   /**Initializes the CPU, AHB and APB busses clocks
+ 106:Src/main.c    ****   */
+ 107:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 105              		.loc 1 107 0
  106 006a 0F23     		movs	r3, #15
  107 006c 0393     		str	r3, [sp, #12]
- 115:Src/main.c    ****   |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 116:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
- 108              		.loc 1 116 0
+ 108:Src/main.c    ****   |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 109:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 108              		.loc 1 109 0
  109 006e 0495     		str	r5, [sp, #16]
- 117:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 110              		.loc 1 117 0
+ 110:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 110              		.loc 1 110 0
  111 0070 0594     		str	r4, [sp, #20]
- 118:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 5
-
-
- 112              		.loc 1 118 0
+ 111:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 112              		.loc 1 111 0
  113 0072 4FF48053 		mov	r3, #4096
  114 0076 0693     		str	r3, [sp, #24]
- 119:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 115              		.loc 1 119 0
+ 112:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 115              		.loc 1 112 0
  116 0078 0794     		str	r4, [sp, #28]
- 120:Src/main.c    **** 
- 121:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
- 117              		.loc 1 121 0
+ 113:Src/main.c    **** 
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 5
+
+
+ 114:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+ 117              		.loc 1 114 0
  118 007a 2946     		mov	r1, r5
  119 007c 03A8     		add	r0, sp, #12
  120 007e FFF7FEFF 		bl	HAL_RCC_ClockConfig
  121              	.LVL2:
- 122:Src/main.c    ****   {
- 123:Src/main.c    ****     Error_Handler();
- 124:Src/main.c    ****   }
- 125:Src/main.c    **** }
- 122              		.loc 1 125 0
+ 115:Src/main.c    ****   {
+ 116:Src/main.c    ****     Error_Handler();
+ 117:Src/main.c    ****   }
+ 118:Src/main.c    **** }
+ 122              		.loc 1 118 0
  123 0082 15B0     		add	sp, sp, #84
  124              	.LCFI2:
  125              		.cfi_def_cfa_offset 12
@@ -280,10 +273,10 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
  142              		.fpu fpv4-sp-d16
  144              	map:
  145              	.LFB128:
- 126:Src/main.c    **** 
- 127:Src/main.c    **** /* USER CODE BEGIN 4 */
- 128:Src/main.c    **** int32_t map(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max){
- 146              		.loc 1 128 0
+ 119:Src/main.c    **** 
+ 120:Src/main.c    **** /* USER CODE BEGIN 4 */
+ 121:Src/main.c    **** int32_t map(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max){
+ 146              		.loc 1 121 0
  147              		.cfi_startproc
  148              		@ args = 4, pretend = 0, frame = 0
  149              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -293,21 +286,21 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
  153              	.LCFI3:
  154              		.cfi_def_cfa_offset 4
  155              		.cfi_offset 4, -4
- 129:Src/main.c    ****   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
- 156              		.loc 1 129 0
+ 122:Src/main.c    ****   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+ 156              		.loc 1 122 0
  157 0002 401A     		subs	r0, r0, r1
  158              	.LVL4:
  159 0004 019C     		ldr	r4, [sp, #4]
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 6
-
-
  160 0006 E41A     		subs	r4, r4, r3
  161 0008 04FB00F0 		mul	r0, r4, r0
  162 000c 521A     		subs	r2, r2, r1
  163              	.LVL5:
  164 000e 90FBF2F0 		sdiv	r0, r0, r2
- 130:Src/main.c    **** }
- 165              		.loc 1 130 0
+ 123:Src/main.c    **** }
+ 165              		.loc 1 123 0
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 6
+
+
  166 0012 1844     		add	r0, r0, r3
  167 0014 5DF8044B 		ldr	r4, [sp], #4
  168              	.LCFI4:
@@ -355,650 +348,620 @@ ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 1
  207              		.loc 1 22 0
  208 0010 FFF7FEFF 		bl	MX_TIM1_Init
  209              	.LVL10:
-  25:Src/main.c    ****   TIM1->PSC = 0;
+  25:Src/main.c    ****   //Just for testing if the frequency is set proprely
  210              		.loc 1 25 0
  211 0014 0021     		movs	r1, #0
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 7
-
-
- 212 0016 3448     		ldr	r0, .L11
- 213 0018 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 212 0016 2F48     		ldr	r0, .L11
+ 213 0018 FFF7FEFF 		bl	HAL_TIM_OC_Start
  214              	.LVL11:
-  26:Src/main.c    ****   TIM1->ARR = delay;
- 215              		.loc 1 26 0
- 216 001c 334B     		ldr	r3, .L11+4
+  27:Src/main.c    ****   TIM1->ARR = freq/2;
+ 215              		.loc 1 27 0
+ 216 001c 2E4B     		ldr	r3, .L11+4
  217 001e 0024     		movs	r4, #0
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 7
+
+
  218 0020 9C62     		str	r4, [r3, #40]
-  27:Src/main.c    ****   TIM1->CCR1 = delay >> 1;
- 219              		.loc 1 27 0
- 220 0022 40F27E52 		movw	r2, #1406
- 221 0026 DA62     		str	r2, [r3, #44]
   28:Src/main.c    **** 
- 222              		.loc 1 28 0
- 223 0028 40F2BF22 		movw	r2, #703
- 224 002c 5A63     		str	r2, [r3, #52]
+ 219              		.loc 1 28 0
+ 220 0022 4AF20F42 		movw	r2, #41999
+ 221 0026 DA62     		str	r2, [r3, #44]
   30:Src/main.c    ****   min_freq_ARR = CPU_frequency / BBD_min_freq;
- 225              		.loc 1 30 0
- 226 002e 304B     		ldr	r3, .L11+8
- 227 0030 1B68     		ldr	r3, [r3]
- 228 0032 304A     		ldr	r2, .L11+12
- 229 0034 1268     		ldr	r2, [r2]
- 230 0036 B3FBF2F2 		udiv	r2, r3, r2
- 231 003a 2F49     		ldr	r1, .L11+16
- 232 003c 0A60     		str	r2, [r1]
+ 222              		.loc 1 30 0
+ 223 0028 2C4B     		ldr	r3, .L11+8
+ 224 002a 1B68     		ldr	r3, [r3]
+ 225 002c 2C4A     		ldr	r2, .L11+12
+ 226 002e 1268     		ldr	r2, [r2]
+ 227 0030 B3FBF2F2 		udiv	r2, r3, r2
+ 228 0034 2B49     		ldr	r1, .L11+16
+ 229 0036 0A60     		str	r2, [r1]
   31:Src/main.c    **** 
- 233              		.loc 1 31 0
- 234 003e 2F4A     		ldr	r2, .L11+20
- 235 0040 1268     		ldr	r2, [r2]
- 236 0042 B3FBF2F3 		udiv	r3, r3, r2
- 237 0046 2E4A     		ldr	r2, .L11+24
- 238 0048 1360     		str	r3, [r2]
+ 230              		.loc 1 31 0
+ 231 0038 2B4A     		ldr	r2, .L11+20
+ 232 003a 1268     		ldr	r2, [r2]
+ 233 003c B3FBF2F3 		udiv	r3, r3, r2
+ 234 0040 2A4A     		ldr	r2, .L11+24
+ 235 0042 1360     		str	r3, [r2]
   33:Src/main.c    ****   OSC_pulse_width_in_cycles_25 = 0 ;
- 239              		.loc 1 33 0
- 240 004a 2E4B     		ldr	r3, .L11+28
- 241 004c 1C60     		str	r4, [r3]
+ 236              		.loc 1 33 0
+ 237 0044 2A4B     		ldr	r3, .L11+28
+ 238 0046 1C60     		str	r4, [r3]
   34:Src/main.c    ****   OSC_pulse_width_in_cycles_12 = 0;
- 242              		.loc 1 34 0
- 243 004e 2E4B     		ldr	r3, .L11+32
- 244 0050 1C60     		str	r4, [r3]
+ 239              		.loc 1 34 0
+ 240 0048 2A4B     		ldr	r3, .L11+32
+ 241 004a 1C60     		str	r4, [r3]
   35:Src/main.c    ****   OSC_sample_counter = 0;
- 245              		.loc 1 35 0
- 246 0052 2E4B     		ldr	r3, .L11+36
- 247 0054 1C60     		str	r4, [r3]
+ 242              		.loc 1 35 0
+ 243 004c 2A4B     		ldr	r3, .L11+36
+ 244 004e 1C60     		str	r4, [r3]
   36:Src/main.c    ****   OSC_samples_per_cycle = 0;
- 248              		.loc 1 36 0
- 249 0056 2E4B     		ldr	r3, .L11+40
- 250 0058 1C60     		str	r4, [r3]
+ 245              		.loc 1 36 0
+ 246 0050 2A4B     		ldr	r3, .L11+40
+ 247 0052 1C60     		str	r4, [r3]
   37:Src/main.c    ****   OSC_osc_out = 0;
- 251              		.loc 1 37 0
- 252 005a 2E4B     		ldr	r3, .L11+44
- 253 005c 1C60     		str	r4, [r3]
+ 248              		.loc 1 37 0
+ 249 0054 2A4B     		ldr	r3, .L11+44
+ 250 0056 1C60     		str	r4, [r3]
   38:Src/main.c    ****   OSC_wave_type = 0;
- 254              		.loc 1 38 0
- 255 005e 2E4B     		ldr	r3, .L11+48
- 256 0060 1C60     		str	r4, [r3]
+ 251              		.loc 1 38 0
+ 252 0058 2A4B     		ldr	r3, .L11+48
+ 253 005a 1C60     		str	r4, [r3]
   39:Src/main.c    ****   OSC_frequency = 1;
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 8
-
-
- 257              		.loc 1 39 0
- 258 0062 2E4B     		ldr	r3, .L11+52
- 259 0064 1C70     		strb	r4, [r3]
+ 254              		.loc 1 39 0
+ 255 005c 2A4B     		ldr	r3, .L11+52
+ 256 005e 1C70     		strb	r4, [r3]
   40:Src/main.c    **** 
- 260              		.loc 1 40 0
- 261 0066 2E4B     		ldr	r3, .L11+56
- 262 0068 4FF07E52 		mov	r2, #1065353216
- 263 006c 1A60     		str	r2, [r3]	@ float
+ 257              		.loc 1 40 0
+ 258 0060 2A4B     		ldr	r3, .L11+56
+ 259 0062 4FF07E52 		mov	r2, #1065353216
+ 260 0066 1A60     		str	r2, [r3]	@ float
   42:Src/main.c    **** 
- 264              		.loc 1 42 0
- 265 006e FFF7FEFF 		bl	freq_calc
- 266              	.LVL12:
+ 261              		.loc 1 42 0
+ 262 0068 FFF7FEFF 		bl	freq_calc
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 8
+
+
+ 263              	.LVL12:
   45:Src/main.c    ****   DWT->CYCCNT = 0;
- 267              		.loc 1 45 0
- 268 0072 2C4A     		ldr	r2, .L11+60
- 269 0074 D368     		ldr	r3, [r2, #12]
- 270 0076 43F08073 		orr	r3, r3, #16777216
- 271 007a D360     		str	r3, [r2, #12]
+ 264              		.loc 1 45 0
+ 265 006c 284A     		ldr	r2, .L11+60
+ 266 006e D368     		ldr	r3, [r2, #12]
+ 267 0070 43F08073 		orr	r3, r3, #16777216
+ 268 0074 D360     		str	r3, [r2, #12]
   46:Src/main.c    ****   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
- 272              		.loc 1 46 0
- 273 007c 2A4B     		ldr	r3, .L11+64
- 274 007e 5C60     		str	r4, [r3, #4]
+ 269              		.loc 1 46 0
+ 270 0076 274B     		ldr	r3, .L11+64
+ 271 0078 5C60     		str	r4, [r3, #4]
   47:Src/main.c    **** 
- 275              		.loc 1 47 0
- 276 0080 1A68     		ldr	r2, [r3]
- 277 0082 42F00102 		orr	r2, r2, #1
- 278 0086 1A60     		str	r2, [r3]
- 279              	.L8:
+ 272              		.loc 1 47 0
+ 273 007a 1A68     		ldr	r2, [r3]
+ 274 007c 42F00102 		orr	r2, r2, #1
+ 275 0080 1A60     		str	r2, [r3]
+ 276              	.L8:
   53:Src/main.c    ****       UI_timer = DWT->CYCCNT;
- 280              		.loc 1 53 0
- 281 0088 274B     		ldr	r3, .L11+64
- 282 008a 5B68     		ldr	r3, [r3, #4]
- 283 008c 274A     		ldr	r2, .L11+68
- 284 008e 1268     		ldr	r2, [r2]
- 285 0090 9B1A     		subs	r3, r3, r2
- 286 0092 274A     		ldr	r2, .L11+72
- 287 0094 9342     		cmp	r3, r2
- 288 0096 F7D9     		bls	.L8
- 289              	.LBB4:
+ 277              		.loc 1 53 0
+ 278 0082 244B     		ldr	r3, .L11+64
+ 279 0084 5B68     		ldr	r3, [r3, #4]
+ 280 0086 244A     		ldr	r2, .L11+68
+ 281 0088 1268     		ldr	r2, [r2]
+ 282 008a 9B1A     		subs	r3, r3, r2
+ 283 008c 234A     		ldr	r2, .L11+72
+ 284 008e 9342     		cmp	r3, r2
+ 285 0090 F7D9     		bls	.L8
   54:Src/main.c    **** 
- 290              		.loc 1 54 0
- 291 0098 234B     		ldr	r3, .L11+64
- 292 009a 5A68     		ldr	r2, [r3, #4]
- 293 009c 234B     		ldr	r3, .L11+68
- 294 009e 1A60     		str	r2, [r3]
+ 286              		.loc 1 54 0
+ 287 0092 204B     		ldr	r3, .L11+64
+ 288 0094 5A68     		ldr	r2, [r3, #4]
+ 289 0096 204B     		ldr	r3, .L11+68
+ 290 0098 1A60     		str	r2, [r3]
   56:Src/main.c    **** 
- 295              		.loc 1 56 0
- 296 00a0 244A     		ldr	r2, .L11+76
- 297 00a2 5369     		ldr	r3, [r2, #20]
- 298 00a4 83F02003 		eor	r3, r3, #32
- 299 00a8 5361     		str	r3, [r2, #20]
-  60:Src/main.c    ****       unsigned int ccr1 = (unsigned int)(overflow_R >> 1) + 1;
- 300              		.loc 1 60 0
- 301 00aa 234C     		ldr	r4, .L11+80
- 302 00ac 2368     		ldr	r3, [r4]
- 303 00ae A2F58032 		sub	r2, r2, #65536
- 304 00b2 D362     		str	r3, [r2, #44]
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 9
+ 291              		.loc 1 56 0
+ 292 009a 214A     		ldr	r2, .L11+76
+ 293 009c 5369     		ldr	r3, [r2, #20]
+ 294 009e 83F02003 		eor	r3, r3, #32
+ 295 00a2 5361     		str	r3, [r2, #20]
+  60:Src/main.c    **** 
+ 296              		.loc 1 60 0
+ 297 00a4 1F4C     		ldr	r4, .L11+80
+ 298 00a6 2368     		ldr	r3, [r4]
+ 299 00a8 03EBD373 		add	r3, r3, r3, lsr #31
+ 300 00ac 5B10     		asrs	r3, r3, #1
+ 301 00ae A2F58032 		sub	r2, r2, #65536
+ 302 00b2 D362     		str	r3, [r2, #44]
+  63:Src/main.c    ****       overflow_R = map(OSC_osc_out, 0, dac_max, max_freq_ARR, min_freq_ARR);
+ 303              		.loc 1 63 0
+ 304 00b4 FFF7FEFF 		bl	osc_calc
+ 305              	.LVL13:
+  64:Src/main.c    **** 
+ 306              		.loc 1 64 0
+ 307 00b8 0A4B     		ldr	r3, .L11+16
+ 308 00ba 1B68     		ldr	r3, [r3]
+ 309 00bc 1A4A     		ldr	r2, .L11+84
+ 310 00be 1268     		ldr	r2, [r2]
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 9
 
 
-  61:Src/main.c    ****       TIM1->CCR1 =  ccr1;
- 305              		.loc 1 61 0
- 306 00b4 5B10     		asrs	r3, r3, #1
- 307 00b6 0133     		adds	r3, r3, #1
- 308              	.LVL13:
-  62:Src/main.c    ****       //TIM1->CCR1 = (999*OSC_osc_out)/dac_max;
- 309              		.loc 1 62 0
- 310 00b8 5363     		str	r3, [r2, #52]
-  65:Src/main.c    ****       TIM3->CCR1 =  (unsigned int)(overflow_L >> 1);
- 311              		.loc 1 65 0
- 312 00ba 204B     		ldr	r3, .L11+84
- 313              	.LVL14:
- 314 00bc 1B68     		ldr	r3, [r3]
- 315 00be A2F57C42 		sub	r2, r2, #64512
- 316              	.LVL15:
- 317 00c2 D362     		str	r3, [r2, #44]
- 318              	.LVL16:
-  66:Src/main.c    **** 
- 319              		.loc 1 66 0
- 320 00c4 5B10     		asrs	r3, r3, #1
- 321 00c6 5363     		str	r3, [r2, #52]
-  69:Src/main.c    ****       overflow_R = map(OSC_osc_out, 0, dac_max, max_freq_ARR, min_freq_ARR);
- 322              		.loc 1 69 0
- 323 00c8 FFF7FEFF 		bl	osc_calc
- 324              	.LVL17:
-  70:Src/main.c    **** 
- 325              		.loc 1 70 0
- 326 00cc 0A4B     		ldr	r3, .L11+16
- 327 00ce 1B68     		ldr	r3, [r3]
- 328 00d0 1B4A     		ldr	r2, .L11+88
- 329 00d2 1268     		ldr	r2, [r2]
- 330 00d4 1049     		ldr	r1, .L11+48
- 331 00d6 0868     		ldr	r0, [r1]
- 332 00d8 0949     		ldr	r1, .L11+24
- 333 00da 0968     		ldr	r1, [r1]
- 334 00dc 0091     		str	r1, [sp]
- 335 00de 0021     		movs	r1, #0
- 336 00e0 FFF7FEFF 		bl	map
- 337              	.LVL18:
- 338 00e4 2060     		str	r0, [r4]
- 339 00e6 CFE7     		b	.L8
- 340              	.L12:
- 341              		.align	2
- 342              	.L11:
- 343 00e8 00000000 		.word	htim1
- 344 00ec 00000140 		.word	1073807360
- 345 00f0 00000000 		.word	.LANCHOR0
- 346 00f4 00000000 		.word	.LANCHOR1
- 347 00f8 00000000 		.word	.LANCHOR2
- 348 00fc 00000000 		.word	.LANCHOR3
- 349 0100 00000000 		.word	.LANCHOR4
- 350 0104 00000000 		.word	OSC_pulse_width_in_cycles_50
- 351 0108 00000000 		.word	OSC_pulse_width_in_cycles_25
- 352 010c 00000000 		.word	OSC_pulse_width_in_cycles_12
- 353 0110 00000000 		.word	OSC_sample_counter
- 354 0114 00000000 		.word	OSC_samples_per_cycle
- 355 0118 00000000 		.word	OSC_osc_out
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 10
+ 311 00c0 1049     		ldr	r1, .L11+48
+ 312 00c2 0868     		ldr	r0, [r1]
+ 313 00c4 0949     		ldr	r1, .L11+24
+ 314 00c6 0968     		ldr	r1, [r1]
+ 315 00c8 0091     		str	r1, [sp]
+ 316 00ca 0021     		movs	r1, #0
+ 317 00cc FFF7FEFF 		bl	map
+ 318              	.LVL14:
+ 319 00d0 2060     		str	r0, [r4]
+ 320 00d2 D6E7     		b	.L8
+ 321              	.L12:
+ 322              		.align	2
+ 323              	.L11:
+ 324 00d4 00000000 		.word	htim1
+ 325 00d8 00000140 		.word	1073807360
+ 326 00dc 00000000 		.word	.LANCHOR0
+ 327 00e0 00000000 		.word	.LANCHOR1
+ 328 00e4 00000000 		.word	.LANCHOR2
+ 329 00e8 00000000 		.word	.LANCHOR3
+ 330 00ec 00000000 		.word	.LANCHOR4
+ 331 00f0 00000000 		.word	OSC_pulse_width_in_cycles_50
+ 332 00f4 00000000 		.word	OSC_pulse_width_in_cycles_25
+ 333 00f8 00000000 		.word	OSC_pulse_width_in_cycles_12
+ 334 00fc 00000000 		.word	OSC_sample_counter
+ 335 0100 00000000 		.word	OSC_samples_per_cycle
+ 336 0104 00000000 		.word	OSC_osc_out
+ 337 0108 00000000 		.word	OSC_wave_type
+ 338 010c 00000000 		.word	OSC_frequency
+ 339 0110 F0ED00E0 		.word	-536810000
+ 340 0114 001000E0 		.word	-536866816
+ 341 0118 00000000 		.word	.LANCHOR5
+ 342 011c 20480100 		.word	84000
+ 343 0120 00000240 		.word	1073872896
+ 344 0124 00000000 		.word	.LANCHOR6
+ 345 0128 00000000 		.word	.LANCHOR7
+ 346              		.cfi_endproc
+ 347              	.LFE126:
+ 349              		.section	.text.Error_Handler,"ax",%progbits
+ 350              		.align	1
+ 351              		.global	Error_Handler
+ 352              		.syntax unified
+ 353              		.thumb
+ 354              		.thumb_func
+ 355              		.fpu fpv4-sp-d16
+ 357              	Error_Handler:
+ 358              	.LFB129:
+ 124:Src/main.c    **** 
+ 125:Src/main.c    **** void Error_Handler(void)
+ 126:Src/main.c    **** {
+ 359              		.loc 1 126 0
+ 360              		.cfi_startproc
+ 361              		@ args = 0, pretend = 0, frame = 0
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              		@ link register save eliminated.
+ 127:Src/main.c    **** 
+ 128:Src/main.c    **** }
+ 364              		.loc 1 128 0
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 10
 
 
- 356 011c 00000000 		.word	OSC_wave_type
- 357 0120 00000000 		.word	OSC_frequency
- 358 0124 F0ED00E0 		.word	-536810000
- 359 0128 001000E0 		.word	-536866816
- 360 012c 00000000 		.word	.LANCHOR5
- 361 0130 20480100 		.word	84000
- 362 0134 00000240 		.word	1073872896
- 363 0138 00000000 		.word	.LANCHOR6
- 364 013c 00000000 		.word	.LANCHOR7
- 365 0140 00000000 		.word	.LANCHOR8
- 366              	.LBE4:
- 367              		.cfi_endproc
- 368              	.LFE126:
- 370              		.section	.text.Error_Handler,"ax",%progbits
- 371              		.align	1
- 372              		.global	Error_Handler
- 373              		.syntax unified
- 374              		.thumb
- 375              		.thumb_func
- 376              		.fpu fpv4-sp-d16
- 378              	Error_Handler:
- 379              	.LFB129:
- 131:Src/main.c    **** 
- 132:Src/main.c    **** void Error_Handler(void)
- 133:Src/main.c    **** {
- 380              		.loc 1 133 0
- 381              		.cfi_startproc
- 382              		@ args = 0, pretend = 0, frame = 0
- 383              		@ frame_needed = 0, uses_anonymous_args = 0
- 384              		@ link register save eliminated.
- 134:Src/main.c    **** 
- 135:Src/main.c    **** }
- 385              		.loc 1 135 0
- 386 0000 7047     		bx	lr
- 387              		.cfi_endproc
- 388              	.LFE129:
- 390              		.global	led_index
- 391              		.global	led_status
- 392              		.global	UI_timer
- 393              		.global	switch_index
- 394              		.global	switch_readings
- 395              		.global	switch_status
- 396              		.global	switch_debounce
- 397              		.global	PREVIOUS_switch_reading
- 398              		.global	switch_reading
- 399              		.global	new_switch_reading
- 400              		.global	pots_threshold
- 401              		.global	new_pots_values
- 402              		.global	pots_ticks
- 403              		.global	old_pot_reading_modulated
- 404              		.global	pot_reading_modulated
- 405              		.global	old_pot_reading
- 406              		.global	pot_summing
- 407              		.global	pot_reading_reduced
- 408              		.global	pot_reading
- 409              		.global	new_pots_reading
- 410              		.global	bit_reduction
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 11
+ 365 0000 7047     		bx	lr
+ 366              		.cfi_endproc
+ 367              	.LFE129:
+ 369              		.global	led_index
+ 370              		.global	led_status
+ 371              		.global	UI_timer
+ 372              		.global	switch_index
+ 373              		.global	switch_readings
+ 374              		.global	switch_status
+ 375              		.global	switch_debounce
+ 376              		.global	PREVIOUS_switch_reading
+ 377              		.global	switch_reading
+ 378              		.global	new_switch_reading
+ 379              		.global	pots_threshold
+ 380              		.global	new_pots_values
+ 381              		.global	pots_ticks
+ 382              		.global	old_pot_reading_modulated
+ 383              		.global	pot_reading_modulated
+ 384              		.global	old_pot_reading
+ 385              		.global	pot_summing
+ 386              		.global	pot_reading_reduced
+ 387              		.global	pot_reading
+ 388              		.global	new_pots_reading
+ 389              		.global	bit_reduction
+ 390              		.global	round_counter
+ 391              		.global	mux_counter
+ 392              		.global	pots_index
+ 393              		.global	new_CV_values_number
+ 394              		.global	adc_threshold
+ 395              		.global	new_CV_values
+ 396              		.global	new_CV_reading
+ 397              		.global	adc_buffer_counter
+ 398              		.global	previous_cv_reading
+ 399              		.global	cv_average
+ 400              		.global	cv_reading_memory
+ 401              		.global	cv_reading
+ 402              		.global	adc_buffer
+ 403              		.comm	OSC_frequency_range,1,1
+ 404              		.comm	OSC_frequency,4,4
+ 405              		.comm	OSC_wave_type,1,1
+ 406              		.global	debug_counter
+ 407              		.comm	out_debug,8000,4
+ 408              		.comm	old_OSC_osc_out,4,4
+ 409              		.comm	OSC_osc_out,4,4
+ 410              		.comm	OSC_samples_per_cycle,4,4
+ 411              		.comm	OSC_sample_counter,4,4
+ 412              		.comm	OSC_pulse_width_in_cycles_12,4,4
+ 413              		.comm	OSC_pulse_width_in_cycles_25,4,4
+ 414              		.comm	OSC_pulse_width_in_cycles_50,4,4
+ 415              		.global	dac_max_div_3_times_2
+ 416              		.global	dac_max_div_3
+ 417              		.global	dac_max
+ 418              		.global	mode
+ 419              		.global	flip_flop
+ 420              		.global	display
+ 421              		.global	new_frequency
+ 422              		.global	overflow_R
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 11
 
 
- 411              		.global	round_counter
- 412              		.global	mux_counter
- 413              		.global	pots_index
- 414              		.global	new_CV_values_number
- 415              		.global	adc_threshold
- 416              		.global	new_CV_values
- 417              		.global	new_CV_reading
- 418              		.global	adc_buffer_counter
- 419              		.global	previous_cv_reading
- 420              		.global	cv_average
- 421              		.global	cv_reading_memory
- 422              		.global	cv_reading
- 423              		.global	adc_buffer
- 424              		.comm	OSC_frequency_range,1,1
- 425              		.comm	OSC_frequency,4,4
- 426              		.comm	OSC_wave_type,1,1
- 427              		.global	debug_counter
- 428              		.comm	out_debug,8000,4
- 429              		.comm	old_OSC_osc_out,4,4
- 430              		.comm	OSC_osc_out,4,4
- 431              		.comm	OSC_samples_per_cycle,4,4
- 432              		.comm	OSC_sample_counter,4,4
- 433              		.comm	OSC_pulse_width_in_cycles_12,4,4
- 434              		.comm	OSC_pulse_width_in_cycles_25,4,4
- 435              		.comm	OSC_pulse_width_in_cycles_50,4,4
- 436              		.global	dac_max_div_3_times_2
- 437              		.global	dac_max_div_3
- 438              		.global	dac_max
- 439              		.global	mode
- 440              		.global	flip_flop
- 441              		.global	display
- 442              		.global	new_frequency
- 443              		.global	overflow_R
- 444              		.global	overflow_L
- 445              		.global	min_freq_ARR
- 446              		.global	max_freq_ARR
- 447              		.global	CPU_frequency
- 448              		.global	sampling_period_in_hz
- 449              		.global	BBD_max_freq
- 450              		.global	BBD_min_freq
- 451              		.global	resample
- 452              		.global	direction
- 453              		.global	time_since
- 454              		.global	LFO_value
- 455              		.global	reload
- 456              		.comm	freq_sampl,4,4
- 457              		.comm	ticks_to_us,4,4
- 458              		.comm	ticks_after,4,4
- 459              		.comm	ticks_before,4,4
- 460              		.global	cycle_ticks
- 461              		.global	debug_switches
- 462              		.global	debug_adc
- 463              		.global	debug_pots
- 464              		.section	.bss.LFO_value,"aw",%nobits
- 465              		.align	2
- 468              	LFO_value:
- 469 0000 00000000 		.space	4
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 12
+ 423              		.global	overflow_L
+ 424              		.global	min_freq_ARR
+ 425              		.global	max_freq_ARR
+ 426              		.global	CPU_frequency
+ 427              		.global	sampling_period_in_hz
+ 428              		.global	BBD_max_freq
+ 429              		.global	BBD_min_freq
+ 430              		.global	resample
+ 431              		.global	direction
+ 432              		.global	time_since
+ 433              		.global	LFO_value
+ 434              		.global	reload
+ 435              		.comm	freq_sampl,4,4
+ 436              		.comm	ticks_to_us,4,4
+ 437              		.comm	ticks_after,4,4
+ 438              		.comm	ticks_before,4,4
+ 439              		.global	cycle_ticks
+ 440              		.global	debug_switches
+ 441              		.global	debug_adc
+ 442              		.global	debug_pots
+ 443              		.section	.bss.LFO_value,"aw",%nobits
+ 444              		.align	2
+ 447              	LFO_value:
+ 448 0000 00000000 		.space	4
+ 449              		.section	.bss.PREVIOUS_switch_reading,"aw",%nobits
+ 450              		.align	2
+ 453              	PREVIOUS_switch_reading:
+ 454 0000 00000000 		.space	8
+ 454      00000000 
+ 455              		.section	.bss.UI_timer,"aw",%nobits
+ 456              		.align	2
+ 457              		.set	.LANCHOR5,. + 0
+ 460              	UI_timer:
+ 461 0000 00000000 		.space	4
+ 462              		.section	.bss.adc_buffer,"aw",%nobits
+ 463              		.align	2
+ 466              	adc_buffer:
+ 467 0000 00000000 		.space	12
+ 467      00000000 
+ 467      00000000 
+ 468              		.section	.bss.adc_buffer_counter,"aw",%nobits
+ 469              		.align	2
+ 472              	adc_buffer_counter:
+ 473 0000 00000000 		.space	4
+ 474              		.section	.bss.cv_average,"aw",%nobits
+ 475              		.align	2
+ 478              	cv_average:
+ 479 0000 00000000 		.space	12
+ 479      00000000 
+ 479      00000000 
+ 480              		.section	.bss.cv_reading,"aw",%nobits
+ 481              		.align	2
+ 484              	cv_reading:
+ 485 0000 00000000 		.space	12
+ 485      00000000 
+ 485      00000000 
+ 486              		.section	.bss.cv_reading_memory,"aw",%nobits
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 12
 
 
- 470              		.section	.bss.PREVIOUS_switch_reading,"aw",%nobits
- 471              		.align	2
- 474              	PREVIOUS_switch_reading:
- 475 0000 00000000 		.space	8
- 475      00000000 
- 476              		.section	.bss.UI_timer,"aw",%nobits
- 477              		.align	2
- 478              		.set	.LANCHOR5,. + 0
- 481              	UI_timer:
- 482 0000 00000000 		.space	4
- 483              		.section	.bss.adc_buffer,"aw",%nobits
- 484              		.align	2
- 487              	adc_buffer:
- 488 0000 00000000 		.space	12
- 488      00000000 
- 488      00000000 
- 489              		.section	.bss.adc_buffer_counter,"aw",%nobits
- 490              		.align	2
- 493              	adc_buffer_counter:
- 494 0000 00000000 		.space	4
- 495              		.section	.bss.cv_average,"aw",%nobits
- 496              		.align	2
- 499              	cv_average:
- 500 0000 00000000 		.space	12
- 500      00000000 
- 500      00000000 
- 501              		.section	.bss.cv_reading,"aw",%nobits
- 502              		.align	2
- 505              	cv_reading:
- 506 0000 00000000 		.space	12
- 506      00000000 
- 506      00000000 
- 507              		.section	.bss.cv_reading_memory,"aw",%nobits
- 508              		.align	2
- 511              	cv_reading_memory:
- 512 0000 00000000 		.space	12
- 512      00000000 
- 512      00000000 
- 513              		.section	.bss.cycle_ticks,"aw",%nobits
- 514              		.align	2
- 517              	cycle_ticks:
- 518 0000 00000000 		.space	4
- 519              		.section	.bss.dac_max_div_3,"aw",%nobits
- 520              		.align	2
- 523              	dac_max_div_3:
- 524 0000 00000000 		.space	4
- 525              		.section	.bss.dac_max_div_3_times_2,"aw",%nobits
- 526              		.align	2
- 529              	dac_max_div_3_times_2:
- 530 0000 00000000 		.space	4
- 531              		.section	.bss.debug_counter,"aw",%nobits
- 532              		.align	2
- 535              	debug_counter:
- 536 0000 00000000 		.space	4
- 537              		.section	.bss.display,"aw",%nobits
- 540              	display:
- 541 0000 00       		.space	1
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 13
+ 487              		.align	2
+ 490              	cv_reading_memory:
+ 491 0000 00000000 		.space	12
+ 491      00000000 
+ 491      00000000 
+ 492              		.section	.bss.cycle_ticks,"aw",%nobits
+ 493              		.align	2
+ 496              	cycle_ticks:
+ 497 0000 00000000 		.space	4
+ 498              		.section	.bss.dac_max_div_3,"aw",%nobits
+ 499              		.align	2
+ 502              	dac_max_div_3:
+ 503 0000 00000000 		.space	4
+ 504              		.section	.bss.dac_max_div_3_times_2,"aw",%nobits
+ 505              		.align	2
+ 508              	dac_max_div_3_times_2:
+ 509 0000 00000000 		.space	4
+ 510              		.section	.bss.debug_counter,"aw",%nobits
+ 511              		.align	2
+ 514              	debug_counter:
+ 515 0000 00000000 		.space	4
+ 516              		.section	.bss.display,"aw",%nobits
+ 519              	display:
+ 520 0000 00       		.space	1
+ 521              		.section	.bss.flip_flop,"aw",%nobits
+ 524              	flip_flop:
+ 525 0000 00       		.space	1
+ 526              		.section	.bss.led_status,"aw",%nobits
+ 527              		.align	2
+ 530              	led_status:
+ 531 0000 00000000 		.space	13
+ 531      00000000 
+ 531      00000000 
+ 531      00
+ 532              		.section	.bss.max_freq_ARR,"aw",%nobits
+ 533              		.align	2
+ 534              		.set	.LANCHOR2,. + 0
+ 537              	max_freq_ARR:
+ 538 0000 00000000 		.space	4
+ 539              		.section	.bss.min_freq_ARR,"aw",%nobits
+ 540              		.align	2
+ 541              		.set	.LANCHOR4,. + 0
+ 544              	min_freq_ARR:
+ 545 0000 00000000 		.space	4
+ 546              		.section	.bss.mux_counter,"aw",%nobits
+ 547              		.align	1
+ 550              	mux_counter:
+ 551 0000 0000     		.space	2
+ 552              		.section	.bss.new_CV_reading,"aw",%nobits
+ 555              	new_CV_reading:
+ 556 0000 00       		.space	1
+ 557              		.section	.bss.new_CV_values,"aw",%nobits
+ 560              	new_CV_values:
+ 561 0000 00       		.space	1
+ 562              		.section	.bss.new_CV_values_number,"aw",%nobits
+ 563              		.align	2
+ 566              	new_CV_values_number:
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 13
 
 
- 542              		.section	.bss.flip_flop,"aw",%nobits
- 545              	flip_flop:
- 546 0000 00       		.space	1
- 547              		.section	.bss.led_status,"aw",%nobits
- 548              		.align	2
- 551              	led_status:
- 552 0000 00000000 		.space	13
- 552      00000000 
- 552      00000000 
- 552      00
- 553              		.section	.bss.max_freq_ARR,"aw",%nobits
- 554              		.align	2
- 555              		.set	.LANCHOR2,. + 0
- 558              	max_freq_ARR:
- 559 0000 00000000 		.space	4
- 560              		.section	.bss.min_freq_ARR,"aw",%nobits
- 561              		.align	2
- 562              		.set	.LANCHOR4,. + 0
- 565              	min_freq_ARR:
- 566 0000 00000000 		.space	4
- 567              		.section	.bss.mux_counter,"aw",%nobits
- 568              		.align	1
- 571              	mux_counter:
- 572 0000 0000     		.space	2
- 573              		.section	.bss.new_CV_reading,"aw",%nobits
- 576              	new_CV_reading:
+ 567 0000 00000000 		.space	8
+ 567      00000000 
+ 568              		.section	.bss.new_pots_reading,"aw",%nobits
+ 571              	new_pots_reading:
+ 572 0000 00       		.space	1
+ 573              		.section	.bss.new_pots_values,"aw",%nobits
+ 576              	new_pots_values:
  577 0000 00       		.space	1
- 578              		.section	.bss.new_CV_values,"aw",%nobits
- 581              	new_CV_values:
+ 578              		.section	.bss.new_switch_reading,"aw",%nobits
+ 581              	new_switch_reading:
  582 0000 00       		.space	1
- 583              		.section	.bss.new_CV_values_number,"aw",%nobits
+ 583              		.section	.bss.old_pot_reading_modulated,"aw",%nobits
  584              		.align	2
- 587              	new_CV_values_number:
- 588 0000 00000000 		.space	8
+ 587              	old_pot_reading_modulated:
+ 588 0000 00000000 		.space	16
  588      00000000 
- 589              		.section	.bss.new_pots_reading,"aw",%nobits
- 592              	new_pots_reading:
- 593 0000 00       		.space	1
- 594              		.section	.bss.new_pots_values,"aw",%nobits
- 597              	new_pots_values:
- 598 0000 00       		.space	1
- 599              		.section	.bss.new_switch_reading,"aw",%nobits
- 602              	new_switch_reading:
- 603 0000 00       		.space	1
- 604              		.section	.bss.old_pot_reading_modulated,"aw",%nobits
- 605              		.align	2
- 608              	old_pot_reading_modulated:
- 609 0000 00000000 		.space	16
- 609      00000000 
- 609      00000000 
- 609      00000000 
- 610              		.section	.bss.pot_reading,"aw",%nobits
- 611              		.align	2
- 614              	pot_reading:
- 615 0000 00000000 		.space	16
- 615      00000000 
- 615      00000000 
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 14
+ 588      00000000 
+ 588      00000000 
+ 589              		.section	.bss.pot_reading,"aw",%nobits
+ 590              		.align	2
+ 593              	pot_reading:
+ 594 0000 00000000 		.space	16
+ 594      00000000 
+ 594      00000000 
+ 594      00000000 
+ 595              		.section	.bss.pot_reading_modulated,"aw",%nobits
+ 596              		.align	2
+ 599              	pot_reading_modulated:
+ 600 0000 00000000 		.space	16
+ 600      00000000 
+ 600      00000000 
+ 600      00000000 
+ 601              		.section	.bss.pot_reading_reduced,"aw",%nobits
+ 602              		.align	2
+ 605              	pot_reading_reduced:
+ 606 0000 00000000 		.space	16
+ 606      00000000 
+ 606      00000000 
+ 606      00000000 
+ 607              		.section	.bss.pot_summing,"aw",%nobits
+ 608              		.align	2
+ 611              	pot_summing:
+ 612 0000 00000000 		.space	16
+ 612      00000000 
+ 612      00000000 
+ 612      00000000 
+ 613              		.section	.bss.pots_ticks,"aw",%nobits
+ 614              		.align	2
+ 617              	pots_ticks:
+ 618 0000 00000000 		.space	4
+ 619              		.section	.bss.previous_cv_reading,"aw",%nobits
+ 620              		.align	2
+ 623              	previous_cv_reading:
+ 624 0000 00000000 		.space	12
+ 624      00000000 
+ 624      00000000 
+ 625              		.section	.bss.reload,"aw",%nobits
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 14
 
 
- 615      00000000 
- 616              		.section	.bss.pot_reading_modulated,"aw",%nobits
- 617              		.align	2
- 620              	pot_reading_modulated:
- 621 0000 00000000 		.space	16
- 621      00000000 
- 621      00000000 
- 621      00000000 
- 622              		.section	.bss.pot_reading_reduced,"aw",%nobits
- 623              		.align	2
- 626              	pot_reading_reduced:
- 627 0000 00000000 		.space	16
- 627      00000000 
- 627      00000000 
- 627      00000000 
- 628              		.section	.bss.pot_summing,"aw",%nobits
- 629              		.align	2
- 632              	pot_summing:
- 633 0000 00000000 		.space	16
- 633      00000000 
- 633      00000000 
- 633      00000000 
- 634              		.section	.bss.pots_ticks,"aw",%nobits
- 635              		.align	2
- 638              	pots_ticks:
- 639 0000 00000000 		.space	4
- 640              		.section	.bss.previous_cv_reading,"aw",%nobits
- 641              		.align	2
- 644              	previous_cv_reading:
- 645 0000 00000000 		.space	12
- 645      00000000 
- 645      00000000 
- 646              		.section	.bss.reload,"aw",%nobits
- 649              	reload:
- 650 0000 00       		.space	1
- 651              		.section	.bss.resample,"aw",%nobits
- 654              	resample:
- 655 0000 00       		.space	1
- 656              		.section	.bss.round_counter,"aw",%nobits
- 657              		.align	1
- 660              	round_counter:
- 661 0000 0000     		.space	2
- 662              		.section	.bss.switch_debounce,"aw",%nobits
- 663              		.align	2
- 666              	switch_debounce:
- 667 0000 00000000 		.space	32
- 667      00000000 
- 667      00000000 
- 667      00000000 
- 667      00000000 
- 668              		.section	.bss.switch_reading,"aw",%nobits
- 669              		.align	2
- 672              	switch_reading:
- 673 0000 00000000 		.space	8
- 673      00000000 
- 674              		.section	.bss.switch_readings,"aw",%nobits
- 677              	switch_readings:
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 15
-
-
- 678 0000 00       		.space	1
- 679              		.section	.bss.switch_status,"aw",%nobits
- 680              		.align	2
- 683              	switch_status:
- 684 0000 00000000 		.space	8
- 684      00000000 
- 685              		.section	.bss.time_since,"aw",%nobits
- 686              		.align	2
- 689              	time_since:
- 690 0000 00000000 		.space	4
- 691              		.section	.data.BBD_max_freq,"aw",%progbits
+ 628              	reload:
+ 629 0000 00       		.space	1
+ 630              		.section	.bss.resample,"aw",%nobits
+ 633              	resample:
+ 634 0000 00       		.space	1
+ 635              		.section	.bss.round_counter,"aw",%nobits
+ 636              		.align	1
+ 639              	round_counter:
+ 640 0000 0000     		.space	2
+ 641              		.section	.bss.switch_debounce,"aw",%nobits
+ 642              		.align	2
+ 645              	switch_debounce:
+ 646 0000 00000000 		.space	32
+ 646      00000000 
+ 646      00000000 
+ 646      00000000 
+ 646      00000000 
+ 647              		.section	.bss.switch_reading,"aw",%nobits
+ 648              		.align	2
+ 651              	switch_reading:
+ 652 0000 00000000 		.space	8
+ 652      00000000 
+ 653              		.section	.bss.switch_readings,"aw",%nobits
+ 656              	switch_readings:
+ 657 0000 00       		.space	1
+ 658              		.section	.bss.switch_status,"aw",%nobits
+ 659              		.align	2
+ 662              	switch_status:
+ 663 0000 00000000 		.space	8
+ 663      00000000 
+ 664              		.section	.bss.time_since,"aw",%nobits
+ 665              		.align	2
+ 668              	time_since:
+ 669 0000 00000000 		.space	4
+ 670              		.section	.data.BBD_max_freq,"aw",%progbits
+ 671              		.align	2
+ 672              		.set	.LANCHOR1,. + 0
+ 675              	BBD_max_freq:
+ 676 0000 80380100 		.word	80000
+ 677              		.section	.data.BBD_min_freq,"aw",%progbits
+ 678              		.align	2
+ 679              		.set	.LANCHOR3,. + 0
+ 682              	BBD_min_freq:
+ 683 0000 BF8B0000 		.word	35775
+ 684              		.section	.data.CPU_frequency,"aw",%progbits
+ 685              		.align	2
+ 686              		.set	.LANCHOR0,. + 0
+ 689              	CPU_frequency:
+ 690 0000 00A24A04 		.word	72000000
+ 691              		.section	.data.adc_threshold,"aw",%progbits
  692              		.align	2
- 693              		.set	.LANCHOR1,. + 0
- 696              	BBD_max_freq:
- 697 0000 80380100 		.word	80000
- 698              		.section	.data.BBD_min_freq,"aw",%progbits
- 699              		.align	2
- 700              		.set	.LANCHOR3,. + 0
- 703              	BBD_min_freq:
- 704 0000 BF8B0000 		.word	35775
- 705              		.section	.data.CPU_frequency,"aw",%progbits
- 706              		.align	2
- 707              		.set	.LANCHOR0,. + 0
- 710              	CPU_frequency:
- 711 0000 00A24A04 		.word	72000000
- 712              		.section	.data.adc_threshold,"aw",%progbits
- 713              		.align	2
- 716              	adc_threshold:
- 717 0000 0A000000 		.word	10
- 718              		.section	.data.bit_reduction,"aw",%progbits
- 719              		.align	2
- 722              	bit_reduction:
- 723 0000 04000000 		.word	4
- 724              		.section	.data.dac_max,"aw",%progbits
- 725              		.align	2
- 726              		.set	.LANCHOR8,. + 0
- 729              	dac_max:
- 730 0000 FF0F0000 		.word	4095
- 731              		.section	.data.debug_adc,"aw",%progbits
- 734              	debug_adc:
+ 695              	adc_threshold:
+ 696 0000 0A000000 		.word	10
+ 697              		.section	.data.bit_reduction,"aw",%progbits
+ 698              		.align	2
+ 701              	bit_reduction:
+ 702 0000 04000000 		.word	4
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 15
+
+
+ 703              		.section	.data.dac_max,"aw",%progbits
+ 704              		.align	2
+ 705              		.set	.LANCHOR7,. + 0
+ 708              	dac_max:
+ 709 0000 FF0F0000 		.word	4095
+ 710              		.section	.data.debug_adc,"aw",%progbits
+ 713              	debug_adc:
+ 714 0000 01       		.byte	1
+ 715              		.section	.data.debug_pots,"aw",%progbits
+ 718              	debug_pots:
+ 719 0000 01       		.byte	1
+ 720              		.section	.data.debug_switches,"aw",%progbits
+ 723              	debug_switches:
+ 724 0000 01       		.byte	1
+ 725              		.section	.data.direction,"aw",%progbits
+ 728              	direction:
+ 729 0000 01       		.byte	1
+ 730              		.section	.data.led_index,"aw",%progbits
+ 731              		.align	2
+ 734              	led_index:
  735 0000 01       		.byte	1
- 736              		.section	.data.debug_pots,"aw",%progbits
- 739              	debug_pots:
- 740 0000 01       		.byte	1
- 741              		.section	.data.debug_switches,"aw",%progbits
- 744              	debug_switches:
- 745 0000 01       		.byte	1
- 746              		.section	.data.direction,"aw",%progbits
- 749              	direction:
- 750 0000 01       		.byte	1
- 751              		.section	.data.led_index,"aw",%progbits
- 752              		.align	2
- 755              	led_index:
- 756 0000 01       		.byte	1
- 757 0001 01       		.byte	1
- 758 0002 01       		.byte	1
- 759 0003 01       		.byte	1
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 16
+ 736 0001 01       		.byte	1
+ 737 0002 01       		.byte	1
+ 738 0003 01       		.byte	1
+ 739 0004 01       		.byte	1
+ 740 0005 01       		.byte	1
+ 741 0006 01       		.byte	1
+ 742 0007 01       		.byte	1
+ 743 0008 01       		.byte	1
+ 744 0009 01       		.byte	1
+ 745 000a 01       		.byte	1
+ 746 000b 01       		.byte	1
+ 747 000c 01       		.byte	1
+ 748              		.section	.data.mode,"aw",%progbits
+ 751              	mode:
+ 752 0000 01       		.byte	1
+ 753              		.section	.data.new_frequency,"aw",%progbits
+ 756              	new_frequency:
+ 757 0000 01       		.byte	1
+ 758              		.section	.data.old_pot_reading,"aw",%progbits
+ 759              		.align	2
+ 762              	old_pot_reading:
+ 763 0000 64000000 		.word	100
+ 764 0004 64000000 		.word	100
+ 765 0008 64000000 		.word	100
+ 766 000c 64000000 		.word	100
+ 767              		.section	.data.overflow_L,"aw",%progbits
+ 768              		.align	2
+ 771              	overflow_L:
+ 772 0000 62030000 		.word	866
+ 773              		.section	.data.overflow_R,"aw",%progbits
+ 774              		.align	2
+ 775              		.set	.LANCHOR6,. + 0
+ 778              	overflow_R:
+ 779 0000 62030000 		.word	866
+ 780              		.section	.data.pots_index,"aw",%progbits
+ 781              		.align	2
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 16
 
 
- 760 0004 01       		.byte	1
- 761 0005 01       		.byte	1
- 762 0006 01       		.byte	1
- 763 0007 01       		.byte	1
- 764 0008 01       		.byte	1
- 765 0009 01       		.byte	1
- 766 000a 01       		.byte	1
- 767 000b 01       		.byte	1
- 768 000c 01       		.byte	1
- 769              		.section	.data.mode,"aw",%progbits
- 772              	mode:
- 773 0000 01       		.byte	1
- 774              		.section	.data.new_frequency,"aw",%progbits
- 777              	new_frequency:
- 778 0000 01       		.byte	1
- 779              		.section	.data.old_pot_reading,"aw",%progbits
- 780              		.align	2
- 783              	old_pot_reading:
- 784 0000 64000000 		.word	100
- 785 0004 64000000 		.word	100
- 786 0008 64000000 		.word	100
- 787 000c 64000000 		.word	100
- 788              		.section	.data.overflow_L,"aw",%progbits
- 789              		.align	2
- 790              		.set	.LANCHOR7,. + 0
- 793              	overflow_L:
- 794 0000 62030000 		.word	866
- 795              		.section	.data.overflow_R,"aw",%progbits
+ 784              	pots_index:
+ 785 0000 0200     		.short	2
+ 786 0002 0100     		.short	1
+ 787 0004 0000     		.short	0
+ 788 0006 0300     		.short	3
+ 789              		.section	.data.pots_threshold,"aw",%progbits
+ 790              		.align	1
+ 793              	pots_threshold:
+ 794 0000 0200     		.short	2
+ 795              		.section	.data.sampling_period_in_hz,"aw",%progbits
  796              		.align	2
- 797              		.set	.LANCHOR6,. + 0
- 800              	overflow_R:
- 801 0000 62030000 		.word	866
- 802              		.section	.data.pots_index,"aw",%progbits
- 803              		.align	2
- 806              	pots_index:
- 807 0000 0200     		.short	2
- 808 0002 0100     		.short	1
- 809 0004 0000     		.short	0
- 810 0006 0300     		.short	3
- 811              		.section	.data.pots_threshold,"aw",%progbits
- 812              		.align	1
- 815              	pots_threshold:
- 816 0000 0200     		.short	2
- 817              		.section	.data.sampling_period_in_hz,"aw",%progbits
- 818              		.align	2
- 821              	sampling_period_in_hz:
- 822 0000 E8030000 		.word	1000
- 823              		.section	.data.switch_index,"aw",%progbits
- 824              		.align	2
- 827              	switch_index:
- 828 0000 0200     		.short	2
- 829 0002 0100     		.short	1
- 830 0004 0000     		.short	0
- 831 0006 0300     		.short	3
- 832 0008 0500     		.short	5
- 833 000a 0400     		.short	4
- 834 000c 0700     		.short	7
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 17
-
-
- 835 000e 0600     		.short	6
- 836              		.text
- 837              	.Letext0:
- 838              		.file 2 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/machine/_default_types
- 839              		.file 3 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/_stdint.h"
- 840              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 841              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 842              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f411xe.h"
- 843              		.file 7 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/lock.h"
- 844              		.file 8 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/_types.h"
- 845              		.file 9 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h
- 846              		.file 10 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/reent.h"
- 847              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 848              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h"
- 849              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h"
- 850              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 851              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
- 852              		.file 16 "Inc/tim.h"
- 853              		.file 17 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/stdlib.h"
- 854              		.file 18 "Inc/variables.h"
- 855              		.file 19 "Inc/osc_calc.h"
- 856              		.file 20 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 857              		.file 21 "Inc/gpio.h"
- 858              		.file 22 "Inc/freq_calc.h"
- 859              		.file 23 "<built-in>"
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 18
+ 799              	sampling_period_in_hz:
+ 800 0000 E8030000 		.word	1000
+ 801              		.section	.data.switch_index,"aw",%progbits
+ 802              		.align	2
+ 805              	switch_index:
+ 806 0000 0200     		.short	2
+ 807 0002 0100     		.short	1
+ 808 0004 0000     		.short	0
+ 809 0006 0300     		.short	3
+ 810 0008 0500     		.short	5
+ 811 000a 0400     		.short	4
+ 812 000c 0700     		.short	7
+ 813 000e 0600     		.short	6
+ 814              		.text
+ 815              	.Letext0:
+ 816              		.file 2 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/machine/_default_types
+ 817              		.file 3 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/_stdint.h"
+ 818              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 819              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 820              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f411xe.h"
+ 821              		.file 7 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/lock.h"
+ 822              		.file 8 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/_types.h"
+ 823              		.file 9 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h
+ 824              		.file 10 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/sys/reent.h"
+ 825              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 826              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h"
+ 827              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h"
+ 828              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 829              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 830              		.file 16 "Inc/tim.h"
+ 831              		.file 17 "/usr/local/Cellar/gcc-arm-none-eabi/20180627/arm-none-eabi/include/stdlib.h"
+ 832              		.file 18 "Inc/variables.h"
+ 833              		.file 19 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 834              		.file 20 "Inc/gpio.h"
+ 835              		.file 21 "Inc/freq_calc.h"
+ 836              		.file 22 "Inc/osc_calc.h"
+ 837              		.file 23 "<built-in>"
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:18     .text.SystemClock_Config:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:25     .text.SystemClock_Config:0000000000000000 SystemClock_Config
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:131    .text.SystemClock_Config:0000000000000088 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:137    .text.map:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:144    .text.map:0000000000000000 map
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:177    .text.main:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:184    .text.main:0000000000000000 main
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:343    .text.main:00000000000000e8 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:18     .text.SystemClock_Config:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:25     .text.SystemClock_Config:0000000000000000 SystemClock_Config
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:131    .text.SystemClock_Config:0000000000000088 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:137    .text.map:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:144    .text.map:0000000000000000 map
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:177    .text.main:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:184    .text.main:0000000000000000 main
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:324    .text.main:00000000000000d4 $d
                             *COM*:0000000000000004 OSC_pulse_width_in_cycles_50
                             *COM*:0000000000000004 OSC_pulse_width_in_cycles_25
                             *COM*:0000000000000004 OSC_pulse_width_in_cycles_12
@@ -1007,133 +970,133 @@ DEFINED SYMBOLS
                             *COM*:0000000000000004 OSC_osc_out
                             *COM*:0000000000000001 OSC_wave_type
                             *COM*:0000000000000004 OSC_frequency
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:371    .text.Error_Handler:0000000000000000 $t
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:378    .text.Error_Handler:0000000000000000 Error_Handler
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:755    .data.led_index:0000000000000000 led_index
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:551    .bss.led_status:0000000000000000 led_status
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:481    .bss.UI_timer:0000000000000000 UI_timer
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:827    .data.switch_index:0000000000000000 switch_index
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:677    .bss.switch_readings:0000000000000000 switch_readings
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:683    .bss.switch_status:0000000000000000 switch_status
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:666    .bss.switch_debounce:0000000000000000 switch_debounce
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:474    .bss.PREVIOUS_switch_reading:0000000000000000 PREVIOUS_switch_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:672    .bss.switch_reading:0000000000000000 switch_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:602    .bss.new_switch_reading:0000000000000000 new_switch_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:815    .data.pots_threshold:0000000000000000 pots_threshold
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:597    .bss.new_pots_values:0000000000000000 new_pots_values
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:638    .bss.pots_ticks:0000000000000000 pots_ticks
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:608    .bss.old_pot_reading_modulated:0000000000000000 old_pot_reading_modulated
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:620    .bss.pot_reading_modulated:0000000000000000 pot_reading_modulated
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:783    .data.old_pot_reading:0000000000000000 old_pot_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:632    .bss.pot_summing:0000000000000000 pot_summing
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:626    .bss.pot_reading_reduced:0000000000000000 pot_reading_reduced
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:614    .bss.pot_reading:0000000000000000 pot_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:592    .bss.new_pots_reading:0000000000000000 new_pots_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:722    .data.bit_reduction:0000000000000000 bit_reduction
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:660    .bss.round_counter:0000000000000000 round_counter
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:571    .bss.mux_counter:0000000000000000 mux_counter
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:806    .data.pots_index:0000000000000000 pots_index
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:587    .bss.new_CV_values_number:0000000000000000 new_CV_values_number
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:716    .data.adc_threshold:0000000000000000 adc_threshold
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:581    .bss.new_CV_values:0000000000000000 new_CV_values
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:576    .bss.new_CV_reading:0000000000000000 new_CV_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:493    .bss.adc_buffer_counter:0000000000000000 adc_buffer_counter
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:644    .bss.previous_cv_reading:0000000000000000 previous_cv_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:499    .bss.cv_average:0000000000000000 cv_average
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:511    .bss.cv_reading_memory:0000000000000000 cv_reading_memory
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:505    .bss.cv_reading:0000000000000000 cv_reading
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:487    .bss.adc_buffer:0000000000000000 adc_buffer
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:350    .text.Error_Handler:0000000000000000 $t
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:357    .text.Error_Handler:0000000000000000 Error_Handler
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:734    .data.led_index:0000000000000000 led_index
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:530    .bss.led_status:0000000000000000 led_status
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:460    .bss.UI_timer:0000000000000000 UI_timer
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:805    .data.switch_index:0000000000000000 switch_index
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:656    .bss.switch_readings:0000000000000000 switch_readings
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:662    .bss.switch_status:0000000000000000 switch_status
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:645    .bss.switch_debounce:0000000000000000 switch_debounce
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:453    .bss.PREVIOUS_switch_reading:0000000000000000 PREVIOUS_switch_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:651    .bss.switch_reading:0000000000000000 switch_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:581    .bss.new_switch_reading:0000000000000000 new_switch_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:793    .data.pots_threshold:0000000000000000 pots_threshold
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:576    .bss.new_pots_values:0000000000000000 new_pots_values
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:617    .bss.pots_ticks:0000000000000000 pots_ticks
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:587    .bss.old_pot_reading_modulated:0000000000000000 old_pot_reading_modulated
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:599    .bss.pot_reading_modulated:0000000000000000 pot_reading_modulated
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:762    .data.old_pot_reading:0000000000000000 old_pot_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:611    .bss.pot_summing:0000000000000000 pot_summing
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:605    .bss.pot_reading_reduced:0000000000000000 pot_reading_reduced
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:593    .bss.pot_reading:0000000000000000 pot_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:571    .bss.new_pots_reading:0000000000000000 new_pots_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:701    .data.bit_reduction:0000000000000000 bit_reduction
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:639    .bss.round_counter:0000000000000000 round_counter
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:550    .bss.mux_counter:0000000000000000 mux_counter
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:784    .data.pots_index:0000000000000000 pots_index
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:566    .bss.new_CV_values_number:0000000000000000 new_CV_values_number
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:695    .data.adc_threshold:0000000000000000 adc_threshold
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:560    .bss.new_CV_values:0000000000000000 new_CV_values
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:555    .bss.new_CV_reading:0000000000000000 new_CV_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:472    .bss.adc_buffer_counter:0000000000000000 adc_buffer_counter
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:623    .bss.previous_cv_reading:0000000000000000 previous_cv_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:478    .bss.cv_average:0000000000000000 cv_average
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:490    .bss.cv_reading_memory:0000000000000000 cv_reading_memory
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:484    .bss.cv_reading:0000000000000000 cv_reading
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:466    .bss.adc_buffer:0000000000000000 adc_buffer
                             *COM*:0000000000000001 OSC_frequency_range
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:535    .bss.debug_counter:0000000000000000 debug_counter
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:514    .bss.debug_counter:0000000000000000 debug_counter
                             *COM*:0000000000001f40 out_debug
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 19
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 18
 
 
                             *COM*:0000000000000004 old_OSC_osc_out
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:529    .bss.dac_max_div_3_times_2:0000000000000000 dac_max_div_3_times_2
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:523    .bss.dac_max_div_3:0000000000000000 dac_max_div_3
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:729    .data.dac_max:0000000000000000 dac_max
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:772    .data.mode:0000000000000000 mode
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:545    .bss.flip_flop:0000000000000000 flip_flop
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:540    .bss.display:0000000000000000 display
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:777    .data.new_frequency:0000000000000000 new_frequency
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:800    .data.overflow_R:0000000000000000 overflow_R
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:793    .data.overflow_L:0000000000000000 overflow_L
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:565    .bss.min_freq_ARR:0000000000000000 min_freq_ARR
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:558    .bss.max_freq_ARR:0000000000000000 max_freq_ARR
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:710    .data.CPU_frequency:0000000000000000 CPU_frequency
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:821    .data.sampling_period_in_hz:0000000000000000 sampling_period_in_hz
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:696    .data.BBD_max_freq:0000000000000000 BBD_max_freq
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:703    .data.BBD_min_freq:0000000000000000 BBD_min_freq
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:654    .bss.resample:0000000000000000 resample
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:749    .data.direction:0000000000000000 direction
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:689    .bss.time_since:0000000000000000 time_since
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:468    .bss.LFO_value:0000000000000000 LFO_value
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:649    .bss.reload:0000000000000000 reload
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:508    .bss.dac_max_div_3_times_2:0000000000000000 dac_max_div_3_times_2
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:502    .bss.dac_max_div_3:0000000000000000 dac_max_div_3
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:708    .data.dac_max:0000000000000000 dac_max
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:751    .data.mode:0000000000000000 mode
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:524    .bss.flip_flop:0000000000000000 flip_flop
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:519    .bss.display:0000000000000000 display
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:756    .data.new_frequency:0000000000000000 new_frequency
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:778    .data.overflow_R:0000000000000000 overflow_R
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:771    .data.overflow_L:0000000000000000 overflow_L
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:544    .bss.min_freq_ARR:0000000000000000 min_freq_ARR
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:537    .bss.max_freq_ARR:0000000000000000 max_freq_ARR
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:689    .data.CPU_frequency:0000000000000000 CPU_frequency
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:799    .data.sampling_period_in_hz:0000000000000000 sampling_period_in_hz
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:675    .data.BBD_max_freq:0000000000000000 BBD_max_freq
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:682    .data.BBD_min_freq:0000000000000000 BBD_min_freq
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:633    .bss.resample:0000000000000000 resample
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:728    .data.direction:0000000000000000 direction
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:668    .bss.time_since:0000000000000000 time_since
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:447    .bss.LFO_value:0000000000000000 LFO_value
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:628    .bss.reload:0000000000000000 reload
                             *COM*:0000000000000004 freq_sampl
                             *COM*:0000000000000004 ticks_to_us
                             *COM*:0000000000000004 ticks_after
                             *COM*:0000000000000004 ticks_before
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:517    .bss.cycle_ticks:0000000000000000 cycle_ticks
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:744    .data.debug_switches:0000000000000000 debug_switches
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:734    .data.debug_adc:0000000000000000 debug_adc
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:739    .data.debug_pots:0000000000000000 debug_pots
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:465    .bss.LFO_value:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:471    .bss.PREVIOUS_switch_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:477    .bss.UI_timer:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:484    .bss.adc_buffer:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:490    .bss.adc_buffer_counter:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:496    .bss.cv_average:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:502    .bss.cv_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:508    .bss.cv_reading_memory:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:514    .bss.cycle_ticks:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:520    .bss.dac_max_div_3:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:526    .bss.dac_max_div_3_times_2:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:532    .bss.debug_counter:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:541    .bss.display:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:546    .bss.flip_flop:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:548    .bss.led_status:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:554    .bss.max_freq_ARR:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:561    .bss.min_freq_ARR:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:568    .bss.mux_counter:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:577    .bss.new_CV_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:582    .bss.new_CV_values:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:584    .bss.new_CV_values_number:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:593    .bss.new_pots_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:598    .bss.new_pots_values:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:603    .bss.new_switch_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:605    .bss.old_pot_reading_modulated:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:611    .bss.pot_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:617    .bss.pot_reading_modulated:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:623    .bss.pot_reading_reduced:0000000000000000 $d
-ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s 			page 20
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:496    .bss.cycle_ticks:0000000000000000 cycle_ticks
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:723    .data.debug_switches:0000000000000000 debug_switches
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:713    .data.debug_adc:0000000000000000 debug_adc
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:718    .data.debug_pots:0000000000000000 debug_pots
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:444    .bss.LFO_value:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:450    .bss.PREVIOUS_switch_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:456    .bss.UI_timer:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:463    .bss.adc_buffer:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:469    .bss.adc_buffer_counter:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:475    .bss.cv_average:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:481    .bss.cv_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:487    .bss.cv_reading_memory:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:493    .bss.cycle_ticks:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:499    .bss.dac_max_div_3:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:505    .bss.dac_max_div_3_times_2:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:511    .bss.debug_counter:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:520    .bss.display:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:525    .bss.flip_flop:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:527    .bss.led_status:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:533    .bss.max_freq_ARR:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:540    .bss.min_freq_ARR:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:547    .bss.mux_counter:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:556    .bss.new_CV_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:561    .bss.new_CV_values:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:563    .bss.new_CV_values_number:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:572    .bss.new_pots_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:577    .bss.new_pots_values:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:582    .bss.new_switch_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:584    .bss.old_pot_reading_modulated:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:590    .bss.pot_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:596    .bss.pot_reading_modulated:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:602    .bss.pot_reading_reduced:0000000000000000 $d
+ARM GAS  /var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s 			page 19
 
 
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:629    .bss.pot_summing:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:635    .bss.pots_ticks:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:641    .bss.previous_cv_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:650    .bss.reload:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:655    .bss.resample:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:657    .bss.round_counter:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:663    .bss.switch_debounce:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:669    .bss.switch_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:678    .bss.switch_readings:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:680    .bss.switch_status:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:686    .bss.time_since:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:692    .data.BBD_max_freq:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:699    .data.BBD_min_freq:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:706    .data.CPU_frequency:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:713    .data.adc_threshold:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:719    .data.bit_reduction:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:725    .data.dac_max:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:752    .data.led_index:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:780    .data.old_pot_reading:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:789    .data.overflow_L:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:796    .data.overflow_R:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:803    .data.pots_index:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:812    .data.pots_threshold:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:818    .data.sampling_period_in_hz:0000000000000000 $d
-/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccAjgjdk.s:824    .data.switch_index:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:608    .bss.pot_summing:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:614    .bss.pots_ticks:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:620    .bss.previous_cv_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:629    .bss.reload:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:634    .bss.resample:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:636    .bss.round_counter:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:642    .bss.switch_debounce:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:648    .bss.switch_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:657    .bss.switch_readings:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:659    .bss.switch_status:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:665    .bss.time_since:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:671    .data.BBD_max_freq:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:678    .data.BBD_min_freq:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:685    .data.CPU_frequency:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:692    .data.adc_threshold:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:698    .data.bit_reduction:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:704    .data.dac_max:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:731    .data.led_index:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:759    .data.old_pot_reading:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:768    .data.overflow_L:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:774    .data.overflow_R:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:781    .data.pots_index:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:790    .data.pots_threshold:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:796    .data.sampling_period_in_hz:0000000000000000 $d
+/var/folders/c7/njqfq59n5tx5xn87mx7dh9jh0000gn/T//ccsyM1Qb.s:802    .data.switch_index:0000000000000000 $d
 
 UNDEFINED SYMBOLS
 memset
@@ -1142,7 +1105,7 @@ HAL_RCC_ClockConfig
 HAL_Init
 MX_GPIO_Init
 MX_TIM1_Init
-HAL_TIM_PWM_Start
+HAL_TIM_OC_Start
 freq_calc
 osc_calc
 htim1

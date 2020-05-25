@@ -21,11 +21,11 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM1_Init();
 
-  int delay = 5625/4;
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  int freq = 83999;
+  HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_1);
+  //Just for testing if the frequency is set proprely
   TIM1->PSC = 0;
-  TIM1->ARR = delay;
-  TIM1->CCR1 = delay >> 1;
+  TIM1->ARR = freq/2;
 
   max_freq_ARR = CPU_frequency / BBD_max_freq;
   min_freq_ARR = CPU_frequency / BBD_min_freq;
@@ -57,8 +57,7 @@ int main(void)
 
       //And set the new timer frequencies
       //PWM alwayas 50%
-      TIM1->ARR = overflow_R;
-      TIM1->CCR1 =  overflow_R >> 1;
+      TIM1->ARR = overflow_R/2;
 
       //Calculating the LFO value
       osc_calc();
@@ -67,7 +66,6 @@ int main(void)
       /*
       out_debug[debug_counter] = ccr1;
       debug_counter++;
-
       if(debug_counter == 4000){
       for(int i=0; i < sizeof(out_debug)/2; i++){
     }
