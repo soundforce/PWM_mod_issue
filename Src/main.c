@@ -58,12 +58,7 @@ int main(void)
       //And set the new timer frequencies
       //PWM alwayas 50%
       TIM1->ARR = overflow_R;
-      unsigned int ccr1 = (unsigned int)(overflow_R >> 1) + 1;
-      TIM1->CCR1 =  ccr1;
-      //TIM1->CCR1 = (999*OSC_osc_out)/dac_max;
-
-      TIM3->ARR = overflow_L;
-      TIM3->CCR1 =  (unsigned int)(overflow_L >> 1);
+      TIM1->CCR1 =  overflow_R >> 1;
 
       //Calculating the LFO value
       osc_calc();
@@ -140,4 +135,4 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
 
 }
-#endif 
+#endif
